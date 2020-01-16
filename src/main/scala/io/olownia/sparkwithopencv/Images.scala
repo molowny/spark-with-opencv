@@ -3,7 +3,7 @@ package io.olownia.sparkWithOpenCV
 import java.nio.ByteBuffer
 
 import org.apache.spark.sql.{DataFrame, Row}
-import org.apache.spark.sql.functions._
+import org.apache.spark.sql.functions.{col, udf}
 
 import org.bytedeco.javacpp.opencv_core.{Mat, mean}
 import org.bytedeco.javacpp.BytePointer
@@ -20,8 +20,8 @@ object Images {
     (1 - mean(image).get(2) / 255) * 100
   })
 
-  def dark(df: DataFrame): DataFrame =
+  def dark(boundary: Int)(df: DataFrame): DataFrame =
     df.withColumn("brightness", brightness(col("image")))
-      .filter(col("brightness") > 83)
+      .filter(col("brightness") > boundary)
 
 }

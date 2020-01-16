@@ -8,7 +8,7 @@ class ImagesTest extends FunSpec with SparkSessionTestWrapper {
       val images = spark.read
         .format("image")
         .load(getClass.getResource("/images").toString)
-      assert(images.transform(Images.dark).count() == 1)
+      assert(images.transform(Images.dark(83)).count() == 1)
     }
   }
 }
